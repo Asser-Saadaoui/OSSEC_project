@@ -1,7 +1,8 @@
-# OSSEC Malware Analysis
+🔐 OSSEC Malware Analysis
 
-A gateway + frontend for orchestrating four malware analysis microservices.
+A gateway + frontend system orchestrating four malware analysis microservices.
 
+CyberPhoenix Team Project
 
 ossec_malware_analysis/
 ├── backend/
@@ -11,91 +12,79 @@ ossec_malware_analysis/
 │   └── index.html         # Single-file UI (no build step)
 ├── .gitignore
 └── README.md
+🧠 Architecture
+Service	Port	Endpoint called by gateway
+dynamic_microservice	8000	POST /analyze
+speakeasy_emulator	8001	POST /emulate
+ai_analysis	8002	POST /analyze
+pdf & png module	8003	POST /report
+gateway (FastAPI)	8080	Orchestrates all services
+⚙️ Setup & Run
+1. Start all microservices
 
+Make sure each service is running before starting the gateway:
 
-## Architecture
-
-| Service              | Port | Endpoint called by gateway      |
-|----------------------|------|---------------------------------|
-| dynamic_microservice | 8000 | POST /analyze                   |
-| speakeasy_emulator   | 8001 | POST /emulate                   |
-| ai_analysis          | 8002 | POST /analyze                   |
-| pdf & png            | 8003 | POST /report                    |
-| **gateway (this)**   | **8080** | all routes above        
-
----
-
-## Setup & Run
-
-### 1. Start your four microservices
-
-Make sure each of your existing services is running on its respective port before starting the gateway.
-
-```bash
-# Example — adapt to your actual start commands
 cd dynamic_microservice && uvicorn main:app --port 8000
 cd speakeasy_emulator   && uvicorn main:app --port 8001
 cd ai_analysis          && uvicorn main:app --port 8002
 cd pdf_png              && uvicorn main:app --port 8003
-```
-
-### 2. Set up the gateway
-
-```bash
+2. Setup gateway (OSSEC core)
 cd ossec_malware_analysis/backend
 
-# Create and activate a virtual environment
 python -m venv .venv
+Activate environment:
 
-# Windows
+Windows:
+
 .venv\Scripts\activate
 
-# Linux / macOS
+Linux/macOS:
+
 source .venv/bin/activate
-
-# Install dependencies
+Install dependencies:
 pip install -r requirements.txt
-```
-
-### 3. Start the gateway
-
-```bash
+3. Run gateway
 uvicorn main:app --host 0.0.0.0 --port 8080 --reload
-```
 
-The gateway is now running at `http://localhost:8080`.  
-Interactive API docs: `http://localhost:8080/docs`
+Gateway:
 
-### 4. Open the frontend
+http://localhost:8080
 
-No build step needed. Just open the file directly in your browser:
+Docs:
+http://localhost:8080/docs
+4. Run frontend
 
-```
+Open directly:
+
 ossec_malware_analysis/frontend/index.html
-```
 
-Or serve it with any static server:
+OR:
 
-```bash
 cd frontend
 python -m http.server 5500
-# open http://localhost:5500
-```
 
----
+Then open:
 
-## API Reference
+http://localhost:5500
+🌐 API Reference
+Method	Route	Description
+GET	/health	Check all services
+POST	/analyze/dynamic	dynamic_microservice
+POST	/analyze/speakeasy	speakeasy_emulator
+POST	/analyze/ai	ai_analysis
+POST	/analyze/report	pdf & png module
+POST	/analyze/full	Run full pipeline
 
-| Method | Route                  | Description                          |
-|--------|------------------------|--------------------------------------|
-| GET    | /health                | Status of all four microservices     |
-| POST   | /analyze/dynamic       | Forward to dynamic_microservice:8000 |
-| POST   | /analyze/speakeasy     | Forward to speakeasy_emulator:8001   |
-| POST   | /analyze/ai            | Forward to ai_analysis:8002          |
-| POST   | /analyze/report        | Forward to pdf_png:8003              |
-| POST   | /analyze/full          | Run all four sequentially            |
+All POST endpoints accept:
 
-All POST endpoints accept `multipart/form-data` with a `file` field.
+multipart/form-data
+file=<upload>
+🛡️ CyberPhoenix Team
+
+This project is developed by:
+
+CyberPhoenix Team 🔥
+Focused on malware analysis, cybersecurity automation, and AI-driven threat intelligence systems.
 
 ---
 
