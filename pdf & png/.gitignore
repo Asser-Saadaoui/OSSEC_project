@@ -1,0 +1,21 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.env
+
+# Temporary files created by the analyzer
+*.tmp
+tmp*
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Flask/Development
+instance/
+.pytest_cache/
