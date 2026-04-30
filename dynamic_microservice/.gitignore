@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+.vscode/
+.env
+*.log
+*.tmp
+*.exe
+*.zip
+reports/
+output/
+results/
+samples/
+malware/
